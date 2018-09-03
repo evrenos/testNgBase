@@ -43,7 +43,7 @@ public class TestBase {
     	user = new ChromeDriver();
     	//user = new FirefoxDriver();
     	user.manage().window().maximize();
-    
+
     	wait = new WebDriverWait(user, 30);
     	
     }
