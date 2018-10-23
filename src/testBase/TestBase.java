@@ -12,12 +12,23 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -25,16 +36,17 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
-
 import org.testng.annotations.BeforeMethod;
 
 public class TestBase {
- 
+	
+	String filename;
     protected WebDriver user = null;
     protected WebDriverWait wait = null;
- 
+    	
     @BeforeMethod
-    public void setUp() throws MalformedURLException {
+    public void setUp() throws MalformedURLException, FileNotFoundException {
+    // Creating a File object that represents the disk file. 
     /*
      * web driver executable path is set.
 	 */
@@ -43,13 +55,12 @@ public class TestBase {
     	user = new ChromeDriver();
     	//user = new FirefoxDriver();
     	user.manage().window().maximize();
-
     	wait = new WebDriverWait(user, 30);
-    	
     }
  
     @AfterMethod
-    public void closeBrowser() {
+    public void closeBrowser() throws IOException {
+    	takeScreenshots();
         getDriver().quit();
  
     }
@@ -332,7 +343,17 @@ public class TestBase {
 			robot.keyRelease(KeyEvent.VK_ENTER);
 			return getDriver();
 		}
+		
     public boolean waitFor(By locator) {
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)) != null;
 	}
+    
+    public void takeScreenshots() throws IOException {
+    	 DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy h-m-s");
+	     Date date = new Date();
+	     File scrFile = ((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.FILE);
+	     filename="case_result";
+	     FileUtils.copyFile(scrFile, new File("C:\\Users\\macbookpro\\Desktop\\ProCoinySS\\"+filename+"-"+dateFormat.format(date)+".png"));
+	   
+    }
 }
