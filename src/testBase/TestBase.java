@@ -21,7 +21,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
@@ -32,11 +31,14 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class TestBase {
 	
@@ -46,23 +48,25 @@ public class TestBase {
     	
     @BeforeMethod
     public void setUp() throws MalformedURLException, FileNotFoundException {
-    // Creating a File object that represents the disk file. 
     /*
      * web driver executable path is set.
 	 */
-    	System.setProperty("webdriver.gecko.driver","C:/FireFoxGeckoDriver/geckodriver.exe");
-		System.setProperty("webdriver.chrome.driver","C:/ChromeDriver/chromedriver.exe");
+    	String path = System.getProperty("user.dir");
+    	System.setProperty("webdriver.chrome.driver",path+"/chromedriver.exe");
+    	//System.setProperty("webdriver.gecko.driver",path+"/geckodriver.exe");		
+    	//System.setProperty("webdriver.ie.driver",path+"/MicrosoftWebDriver.exe");
     	user = new ChromeDriver();
-    	//user = new FirefoxDriver();
     	user.manage().window().maximize();
     	wait = new WebDriverWait(user, 30);
     }
- 
     @AfterMethod
     public void closeBrowser() throws IOException {
     	takeScreenshots();
         getDriver().quit();
- 
+    }
+    @Test
+    public void testTrial() throws InterruptedException {
+    	getDriver().navigate().to("https://www.google.com");
     }
     /**
      * getter for driver to be accessible from specific test classes.
@@ -293,6 +297,13 @@ public class TestBase {
 		public String generateTestAlphaNumericStrings(int length){
 		    return RandomStringUtils.randomAlphanumeric(length);
 		}
+		
+		/**
+		 * 
+		 * function to scroll page by pixel
+		 * @param pxl
+		 * @return
+		 */
 		public WebDriver scrollDown(String pxl){
 			JavascriptExecutor jse2 = (JavascriptExecutor)getDriver();  
 			jse2.executeScript("window.scrollBy(0,"+pxl+")", "");
@@ -343,17 +354,23 @@ public class TestBase {
 			robot.keyRelease(KeyEvent.VK_ENTER);
 			return getDriver();
 		}
-		
+		/**
+		 * wait for a specific element manually after a dynamic change on the browser page
+		 * @param locator
+		 * @return
+		 */
     public boolean waitFor(By locator) {
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)) != null;
 	}
-    
+    /**
+     * Takes screenshot of currently displayed page
+     * @throws IOException
+     */
     public void takeScreenshots() throws IOException {
     	 DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy h-m-s");
 	     Date date = new Date();
 	     File scrFile = ((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.FILE);
 	     filename="case_result";
-	     FileUtils.copyFile(scrFile, new File("C:\\Users\\macbookpro\\Desktop\\ProCoinySS\\"+filename+"-"+dateFormat.format(date)+".png"));
-	   
+	     FileUtils.copyFile(scrFile, new File("C:\\AutomationScreenshots\\"+filename+"-"+dateFormat.format(date)+".png"));
     }
 }
