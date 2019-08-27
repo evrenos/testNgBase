@@ -2,20 +2,20 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="8343" started-at="2019-02-26T11:09:03Z" finished-at="2019-02-26T11:09:11Z">
+  <suite name="Default suite" duration-ms="8597" started-at="2019-08-27T06:13:02Z" finished-at="2019-08-27T06:13:10Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="8343" started-at="2019-02-26T11:09:03Z" finished-at="2019-02-26T11:09:11Z">
+    <test name="Default test" duration-ms="8597" started-at="2019-08-27T06:13:02Z" finished-at="2019-08-27T06:13:10Z">
       <class name="testBase.TestBase">
-        <test-method status="PASS" signature="setUp()[pri:0, instance:testBase.TestBase@5f3a4b84]" name="setUp" is-config="true" duration-ms="4894" started-at="2019-02-26T11:09:03Z" finished-at="2019-02-26T11:09:08Z">
+        <test-method status="PASS" signature="setUp()[pri:0, instance:testBase.TestBase@5f3a4b84]" name="setUp" is-config="true" duration-ms="4744" started-at="2019-08-27T06:13:02Z" finished-at="2019-08-27T06:13:07Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="testTrial()[pri:0, instance:testBase.TestBase@5f3a4b84]" name="testTrial" duration-ms="1949" started-at="2019-02-26T11:09:08Z" finished-at="2019-02-26T11:09:10Z">
+        <test-method status="PASS" signature="testTrial()[pri:0, instance:testBase.TestBase@5f3a4b84]" name="testTrial" duration-ms="1464" started-at="2019-08-27T06:13:07Z" finished-at="2019-08-27T06:13:08Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testTrial -->
-        <test-method status="PASS" signature="closeBrowser()[pri:0, instance:testBase.TestBase@5f3a4b84]" name="closeBrowser" is-config="true" duration-ms="1465" started-at="2019-02-26T11:09:10Z" finished-at="2019-02-26T11:09:11Z">
+        <test-method status="PASS" signature="closeBrowser()[pri:0, instance:testBase.TestBase@5f3a4b84]" name="closeBrowser" is-config="true" duration-ms="2344" started-at="2019-08-27T06:13:08Z" finished-at="2019-08-27T06:13:10Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- closeBrowser -->

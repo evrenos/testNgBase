@@ -15,7 +15,6 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -64,7 +63,7 @@ public class TestBase {
     	takeScreenshots();
         getDriver().quit();
     }
-    @Test
+    @Test (enabled = false)
     public void testTrial() throws InterruptedException {
     	getDriver().navigate().to("https://www.google.com");
     }
