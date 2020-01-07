@@ -19,7 +19,10 @@ import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
@@ -30,6 +33,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -37,6 +41,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class TestBase {
@@ -44,20 +49,18 @@ public class TestBase {
 	String filename;
     protected WebDriver user = null;
     protected WebDriverWait wait = null;
-    	
-    @BeforeMethod
-    public void setUp() throws MalformedURLException, FileNotFoundException {
     /*
      * web driver executable path is set.
 	 */
-    	String path = System.getProperty("user.dir");
-    	System.setProperty("webdriver.chrome.driver",path+"/chromedriver.exe");
-    	//System.setProperty("webdriver.gecko.driver",path+"/geckodriver.exe");		
-    	//System.setProperty("webdriver.ie.driver",path+"/MicrosoftWebDriver.exe");
-    	user = new ChromeDriver();
-    	user.manage().window().maximize();
-    	wait = new WebDriverWait(user, 30);
+    String path = System.getProperty("user.dir");
+   
+    @BeforeMethod
+    public void setUp() throws Exception {
+    	
+    	setPropertyForBrowserType();
+    	
     }
+
     @AfterMethod
     public void closeBrowser() throws IOException {
     	takeScreenshots();
@@ -67,6 +70,44 @@ public class TestBase {
     public void testTrial() throws InterruptedException {
     	getDriver().navigate().to("https://www.google.com");
     }
+    /**
+     * method to set test browser from added webdrivers
+     * @param type
+     */
+    public void setPropertyForBrowserType() {
+    	
+    	user = new ChromeDriver();
+    	user.manage().window().maximize();
+    	wait = new WebDriverWait(user, 30);
+    	
+//    	System.out.println("Please type which browser to run tests:'firefox','chrome' or 'edge'");
+//        Scanner in = new Scanner(System.in);
+//        String consoleInput = in.nextLine();
+// 
+//        
+//    	if(consoleInput.equals("firefox")) {
+//    	System.setProperty("webdriver.gecko.driver",path+"/geckodriver.exe");
+//    	user = new FirefoxDriver();
+//    	user.manage().window().maximize();
+//    	wait = new WebDriverWait(user, 30);
+//    	}
+//    	else if(consoleInput.equals("chrome")) {
+//    		System.setProperty("webdriver.chrome.driver",path+"/chromedriver.exe");
+//    		user = new ChromeDriver();
+//        	user.manage().window().maximize();
+//        	wait = new WebDriverWait(user, 30);
+//        }
+//    	else if(consoleInput.equals("edge")) {
+//    		System.setProperty("webdriver.edge.driver",path+"/MicrosoftWebDriver.exe");
+//    		user = new EdgeDriver();
+//        	user.manage().window().maximize();
+//        	wait = new WebDriverWait(user, 30);
+//        }
+//    	else {
+//    		System.out.println("System.property could not set for specified Browser.");
+//    	}  	
+    }
+    
     /**
      * getter for driver to be accessible from specific test classes.
      * @return WebDriver
@@ -125,7 +166,7 @@ public class TestBase {
 	public WebDriver clickByBy(By cIdentifier , By identifier){
 		WebElement button = (new WebDriverWait(getDriver(), 30)).until(ExpectedConditions.presenceOfElementLocated(cIdentifier));
 		button.click();
-		Assert.assertTrue(waitFor(identifier));
+		//Assert.assertTrue(waitFor(identifier));
 		return getDriver();
 	}
 	/**
@@ -278,7 +319,7 @@ public class TestBase {
 		            "1234567890";   
 		    String email="";
 		    String temp=RandomStringUtils.random(length,allowedChars);
-		    email=temp.substring(0,temp.length()-9)+"@ovidos.com";
+		    email=temp.substring(0,temp.length()-9)+"@testing.com";
 		    return email;   
 		}
 		
